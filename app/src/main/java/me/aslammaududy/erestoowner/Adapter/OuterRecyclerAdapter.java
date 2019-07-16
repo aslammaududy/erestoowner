@@ -1,6 +1,5 @@
 package me.aslammaududy.erestoowner.Adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import me.aslammaududy.erestoowner.R;
 public class OuterRecyclerAdapter extends RecyclerView.Adapter<OuterRecyclerAdapter.OuterViewHolder> {
     private List<Layout> layoutNames;
     private List<String> tableNumbers;
-    private InnerRecyclerAdapter innerRecyclerAdapter;
 
     public OuterRecyclerAdapter(List<Layout> layoutNames) {
         this.layoutNames = layoutNames;
@@ -36,7 +34,7 @@ public class OuterRecyclerAdapter extends RecyclerView.Adapter<OuterRecyclerAdap
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(parent.getContext(), 5);
 
 
-        innerRecyclerAdapter = new InnerRecyclerAdapter(tableNumbers);
+        InnerRecyclerAdapter innerRecyclerAdapter = new InnerRecyclerAdapter(tableNumbers);
         outerViewHolder.innerRecycler.setLayoutManager(layoutManager);
         outerViewHolder.innerRecycler.setAdapter(innerRecyclerAdapter);
         return outerViewHolder;

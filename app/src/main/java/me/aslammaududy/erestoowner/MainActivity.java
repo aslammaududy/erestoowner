@@ -3,6 +3,7 @@ package me.aslammaududy.erestoowner;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -51,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         layoutSum = findViewById(R.id.layout_sum);
 
         layoutList = new ArrayList<>();
-        layout = new Layout();
 
         layoutBuilder.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -83,29 +83,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void buildLayout(View view) {
-        layoutBuilderAdapter.setOnTableAddedListener(new LayoutBuilderAdapter.OnLayoutBuilderFilledListener() {
-            @Override
-            public void onTableNumberFilled(int startNumber, int endNumber) {
-                StringBuilder stringBuilder = new StringBuilder();
-                for (int i = startNumber; i <= endNumber; i++) {
-                    stringBuilder.append(i);
-                    if (i < endNumber) {
-                        stringBuilder.append(',');
-                    }
+        List<LayoutBuilderAdapter.LayoutItem> layoutItems = layoutBuilderAdapter.retrieveData();
+        Log.i("size", layoutItems.size() + "");
+        for (int i = 0; i < layoutItems.size(); i++) {
+            String name = layoutItems.get(i).layoutName;
+            String start = layoutItems.get(i).startNumber;
+            String end = layoutItems.get(i).endNumber;
+
+            StringBuilder s = new StringBuilder();
+            for (int j = Integer.parseInt(start); j <= Integer.parseInt(end); j++) {
+                s.append(j);
+                if (j < Integer.parseInt(end)) {
+                    s.append(',');
                 }
-
-                tableNumbers = stringBuilder.toString();
-                layout.setNomorMeja(tableNumbers);
-
             }
+            layout = new Layout();
+            layout.setNama(name);
+            layout.setNomorMeja(s.toString());
 
-            @Override
-            public void onLayoutNameFilled(String layoutName) {
-                layout.setNama(layoutName);
-            }
-        });
-
-        layoutList.add(layout);
+            layoutList.add(layout);
+        }
 
         Endpoints endpoints = Connection.getEndpoints();
         endpoints.addLayouts(layoutList).enqueue(new Callback<ResponseBody>() {
@@ -132,6 +129,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        Log.i("layout", layoutList.toString());
     }
 }
