@@ -1,6 +1,7 @@
 package me.aslammaududy.erestoowner;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -37,9 +38,10 @@ public class MainActivity extends AppCompatActivity {
     private BootstrapButton buildButton;
     private BootstrapEditText layoutSum;
     private LayoutBuilderAdapter layoutBuilderAdapter;
-    private String tableNumbers;
     private List<Layout> layoutList;
     private Layout layout;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         layoutBuilder = findViewById(R.id.layout_recycler);
         buildButton = findViewById(R.id.build_button);
         layoutSum = findViewById(R.id.layout_sum);
+
+        preferences = getSharedPreferences("erestoowner", 0);
+        editor = preferences.edit();
 
         layoutList = new ArrayList<>();
 
@@ -97,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     s.append(',');
                 }
             }
+
             layout = new Layout();
             layout.setNama(name);
             layout.setNomorMeja(s.toString());
@@ -105,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Endpoints endpoints = Connection.getEndpoints();
-        endpoints.addLayouts(layoutList).enqueue(new Callback<ResponseBody>() {
+        endpoints.createLayouts(layoutList).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
@@ -113,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
                     if (object.get("status").equals("sukses")) {
                         Intent intent = new Intent(MainActivity.this, SelectTableActivity.class);
                         startActivity(intent);
+
+                        editor.putBoolean("wizard", true);
+                        editor.commit();
                     } else {
                         Toast.makeText(MainActivity.this, "Terjadi Kesalahan", Toast.LENGTH_LONG);
                     }

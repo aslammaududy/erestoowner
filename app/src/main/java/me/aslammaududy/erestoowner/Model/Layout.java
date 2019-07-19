@@ -1,7 +1,5 @@
 package me.aslammaududy.erestoowner.Model;
 
-import androidx.annotation.NonNull;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -17,6 +15,7 @@ public class Layout {
     private String nomorMeja;
 
     public Layout() {
+
     }
 
     public Layout(String id, String nama, String nomorMeja) {
@@ -49,9 +48,4 @@ public class Layout {
         this.nomorMeja = nomorMeja;
     }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }

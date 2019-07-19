@@ -46,7 +46,7 @@ public class SelectTableActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Layout>> call, Response<List<Layout>> response) {
                 layoutNames = new ArrayList<>(response.body());
-                adapter = new OuterRecyclerAdapter(layoutNames);
+                adapter = new OuterRecyclerAdapter(layoutNames, SelectTableActivity.this);
                 outerRecycler.setAdapter(adapter);
 
                 handler.postDelayed(new Runnable() {
