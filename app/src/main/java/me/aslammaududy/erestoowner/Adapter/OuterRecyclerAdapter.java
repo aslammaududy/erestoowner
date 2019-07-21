@@ -1,6 +1,7 @@
 package me.aslammaududy.erestoowner.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import me.aslammaududy.erestoowner.Model.Layout;
 import me.aslammaududy.erestoowner.R;
 
 public class OuterRecyclerAdapter extends RecyclerView.Adapter<OuterRecyclerAdapter.OuterViewHolder> {
+    public static int outerAdapterPosition;
     private List<Layout> layoutNames;
     private List<String> tableNumbers;
+    private List<Integer> layoutPositions;
     private InnerRecyclerAdapter innerRecyclerAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private Context context;
@@ -37,10 +41,10 @@ public class OuterRecyclerAdapter extends RecyclerView.Adapter<OuterRecyclerAdap
         View view = layoutInflater.inflate(R.layout.outer_recycler_item, parent, false);
 
         tableNumbers = new ArrayList<>();
+        layoutPositions = new ArrayList<>();
         layoutManager = new GridLayoutManager(parent.getContext(), 5);
 
-
-        innerRecyclerAdapter = new InnerRecyclerAdapter(tableNumbers, context);
+        innerRecyclerAdapter = new InnerRecyclerAdapter(tableNumbers, layoutPositions, context);
 
         return new OuterViewHolder(view);
 
@@ -52,9 +56,8 @@ public class OuterRecyclerAdapter extends RecyclerView.Adapter<OuterRecyclerAdap
 
         String[] numbers = layoutNames.get(position).getNomorMeja().split(",");
 
-        for (int i = 0; i < numbers.length; i++) {
-            tableNumbers.add(numbers[i]);
-        }
+        layoutPositions.add(position);
+        tableNumbers.addAll(Arrays.asList(numbers));
     }
 
     @Override
@@ -62,10 +65,13 @@ public class OuterRecyclerAdapter extends RecyclerView.Adapter<OuterRecyclerAdap
         return layoutNames.size();
     }
 
+
     public class OuterViewHolder extends RecyclerView.ViewHolder {
         private TextView layoutName;
         private RecyclerView innerRecycler;
-        private BootstrapButton mergeTable;
+        private BootstrapButton mergeTable, unmergedTable;
+        private SharedPreferences sharedPreferences;
+        private SharedPreferences.Editor editor;
 
         public OuterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,9 +79,42 @@ public class OuterRecyclerAdapter extends RecyclerView.Adapter<OuterRecyclerAdap
             layoutName = itemView.findViewById(R.id.layout_name);
             innerRecycler = itemView.findViewById(R.id.inner_recycler);
             mergeTable = itemView.findViewById(R.id.merge_table);
+            unmergedTable = itemView.findViewById(R.id.unmerge_table);
+
+            sharedPreferences = context.getSharedPreferences("erestoowner", 0);
+            editor = sharedPreferences.edit();
+            editor.apply();
 
             innerRecycler.setLayoutManager(layoutManager);
             innerRecycler.setAdapter(innerRecyclerAdapter);
+
+            mergeTable.setOnCheckedChangedListener((bootstrapButton, isChecked) -> {
+                if (isChecked) {
+                    outerAdapterPosition = getAdapterPosition();
+
+                    editor.putBoolean("merge" + outerAdapterPosition, true);
+                    editor.commit();
+                } else {
+                    outerAdapterPosition = getAdapterPosition();
+
+                    editor.putBoolean("merge" + outerAdapterPosition, false);
+                    editor.commit();
+                }
+            });
+
+            unmergedTable.setOnCheckedChangedListener((bootstrapButton, isChecked) -> {
+                if (isChecked) {
+                    outerAdapterPosition = getAdapterPosition();
+
+                    editor.putBoolean("unmerged" + outerAdapterPosition, true);
+                    editor.commit();
+                } else {
+                    outerAdapterPosition = getAdapterPosition();
+
+                    editor.putBoolean("unmerged" + outerAdapterPosition, false);
+                    editor.commit();
+                }
+            });
         }
     }
 }

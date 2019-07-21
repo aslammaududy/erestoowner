@@ -74,39 +74,6 @@ public class LayoutBuilderAdapter extends RecyclerView.Adapter<LayoutBuilderAdap
             layoutName = itemView.findViewById(R.id.item_layout_name);
             startNumber = itemView.findViewById(R.id.start_number);
             endNumber = itemView.findViewById(R.id.end_number);
-
-//            layoutName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//                @Override
-//                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                    if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                        layoutItems.get(getAdapterPosition()).setLayoutName(layoutName.getText().toString());
-//                        return true;
-//                    }
-//                    return false;
-//                }
-//            });
-//
-//            startNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//                @Override
-//                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                    if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                        layoutItems.get(getAdapterPosition()).setLayoutName(startNumber.getText().toString());
-//                        return true;
-//                    }
-//                    return false;
-//                }
-//            });
-//
-//            endNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//                @Override
-//                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                    if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                        layoutItems.get(getAdapterPosition()).setLayoutName(endNumber.getText().toString());
-//                        return true;
-//                    }
-//                    return false;
-//                }
-//            });
             layoutName.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {

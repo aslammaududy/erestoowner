@@ -49,12 +49,7 @@ public class SelectTableActivity extends AppCompatActivity {
                 adapter = new OuterRecyclerAdapter(layoutNames, SelectTableActivity.this);
                 outerRecycler.setAdapter(adapter);
 
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ProgressBar.dissmiss();
-                    }
-                }, 1000);
+                handler.postDelayed(ProgressBar::dissmiss, 1000);
             }
 
             @Override
@@ -62,7 +57,5 @@ public class SelectTableActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 }

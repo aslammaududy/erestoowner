@@ -65,12 +65,7 @@ public class MainActivity extends AppCompatActivity {
         ProgressBar.show(this);
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ProgressBar.dissmiss();
-            }
-        }, 1000);
+        handler.postDelayed(ProgressBar::dissmiss, 1000);
 
         divider.setVisibility(View.VISIBLE);
         layoutBuilder.setVisibility(View.VISIBLE);
