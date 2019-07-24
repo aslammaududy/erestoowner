@@ -41,7 +41,7 @@ public class SelectTableActivity extends AppCompatActivity {
         outerRecycler.setLayoutManager(layoutManager);
         outerRecycler.setHasFixedSize(true);
 
-        Endpoints endpoints = Connection.getEndpoints();
+        Endpoints endpoints = Connection.getEndpoints(this);
         endpoints.getLayouts().enqueue(new Callback<List<Layout>>() {
             @Override
             public void onResponse(Call<List<Layout>> call, Response<List<Layout>> response) {

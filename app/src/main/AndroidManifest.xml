@@ -15,18 +15,24 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".PaymentActivity"
+            android:screenOrientation="landscape" />
+        <!--android:windowSoftInputMode="stateVisible"-->
+        <activity
+            android:name=".SelectMenuActivity"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".SelectTableActivity"
+            android:screenOrientation="landscape" />
+
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait">
-
         </activity>
     </application>
 

@@ -4,9 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Layout {
-    @SerializedName("id")
+    @SerializedName("id_layout")
     @Expose
-    private String id;
+    private String idLayout;
     @SerializedName("nama")
     @Expose
     private String nama;
@@ -14,22 +14,12 @@ public class Layout {
     @Expose
     private String nomorMeja;
 
-    public Layout() {
-
+    public String getIdLayout() {
+        return idLayout;
     }
 
-    public Layout(String id, String nama, String nomorMeja) {
-        this.id = id;
-        this.nama = nama;
-        this.nomorMeja = nomorMeja;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setIdLayout(String idLayout) {
+        this.idLayout = idLayout;
     }
 
     public String getNama() {

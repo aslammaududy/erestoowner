@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Menu {
 
-    @SerializedName("id")
+    @SerializedName("id_menu")
     @Expose
-    private String id;
+    private String idMenu;
     @SerializedName("nama")
     @Expose
     private String nama;
@@ -21,12 +21,12 @@ public class Menu {
     @Expose
     private String diskon;
 
-    public String getId() {
-        return id;
+    public String getIdMenu() {
+        return idMenu;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdMenu(String idMenu) {
+        this.idMenu = idMenu;
     }
 
     public String getNama() {

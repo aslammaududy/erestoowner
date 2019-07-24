@@ -44,6 +44,12 @@ public class OuterRecyclerAdapter extends RecyclerView.Adapter<OuterRecyclerAdap
         layoutPositions = new ArrayList<>();
         layoutManager = new GridLayoutManager(parent.getContext(), 5);
 
+        //mengambil banyaknya layout. kemudian akan digunakan untuk mengecek layout mana
+        //yang sedang aktif pada saat meja digabung
+        for (int i = 0; i < layoutNames.size(); i++) {
+            layoutPositions.add(i);
+        }
+
         innerRecyclerAdapter = new InnerRecyclerAdapter(tableNumbers, layoutPositions, context);
 
         return new OuterViewHolder(view);
@@ -56,7 +62,6 @@ public class OuterRecyclerAdapter extends RecyclerView.Adapter<OuterRecyclerAdap
 
         String[] numbers = layoutNames.get(position).getNomorMeja().split(",");
 
-        layoutPositions.add(position);
         tableNumbers.addAll(Arrays.asList(numbers));
     }
 
@@ -92,12 +97,12 @@ public class OuterRecyclerAdapter extends RecyclerView.Adapter<OuterRecyclerAdap
                 if (isChecked) {
                     outerAdapterPosition = getAdapterPosition();
 
-                    editor.putBoolean("merge" + outerAdapterPosition, true);
+                    editor.putString("merge" + outerAdapterPosition, "merge" + outerAdapterPosition);
                     editor.commit();
                 } else {
                     outerAdapterPosition = getAdapterPosition();
 
-                    editor.putBoolean("merge" + outerAdapterPosition, false);
+                    editor.putString("merge" + outerAdapterPosition, "");
                     editor.commit();
                 }
             });
@@ -106,12 +111,12 @@ public class OuterRecyclerAdapter extends RecyclerView.Adapter<OuterRecyclerAdap
                 if (isChecked) {
                     outerAdapterPosition = getAdapterPosition();
 
-                    editor.putBoolean("unmerged" + outerAdapterPosition, true);
+                    editor.putString("unmerged" + outerAdapterPosition, "unmerged" + outerAdapterPosition);
                     editor.commit();
                 } else {
                     outerAdapterPosition = getAdapterPosition();
 
-                    editor.putBoolean("unmerged" + outerAdapterPosition, false);
+                    editor.putString("unmerged" + outerAdapterPosition, "");
                     editor.commit();
                 }
             });

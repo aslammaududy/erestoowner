@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -55,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
 
         preferences = getSharedPreferences("erestoowner", 0);
         editor = preferences.edit();
+        editor.apply();
+
+        if (preferences.getBoolean("wizard", false)) {
+            Intent intent = new Intent(MainActivity.this, SelectTableActivity.class);
+            startActivity(intent);
+        }
 
         layoutList = new ArrayList<>();
 
@@ -84,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void buildLayout(View view) {
         List<LayoutBuilderAdapter.LayoutItem> layoutItems = layoutBuilderAdapter.retrieveData();
-        Log.i("size", layoutItems.size() + "");
         for (int i = 0; i < layoutItems.size(); i++) {
             String name = layoutItems.get(i).layoutName;
             String start = layoutItems.get(i).startNumber;
@@ -105,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             layoutList.add(layout);
         }
 
-        Endpoints endpoints = Connection.getEndpoints();
+        Endpoints endpoints = Connection.getEndpoints(this);
         endpoints.createLayouts(layoutList).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -118,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                         editor.putBoolean("wizard", true);
                         editor.commit();
                     } else {
-                        Toast.makeText(MainActivity.this, "Terjadi Kesalahan", Toast.LENGTH_LONG);
+                        Toast.makeText(MainActivity.this, "Terjadi Kesalahan", Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
